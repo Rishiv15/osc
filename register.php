@@ -3,19 +3,19 @@
 ?>
 
     <main>
-        <div class="container">
+        <div class="container mt-5">
             <form class="needs-validation" novalidate>
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label for="validationTooltip01">First name</label>
-                        <input type="text" class="form-control" id="validationTooltip01" value="Mark" required>
+                        <input type="text" class="form-control" id="validationTooltip01" value="" required>
                         <div class="valid-tooltip">
                             Looks good!
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="validationTooltip02">Last name</label>
-                        <input type="text" class="form-control" id="validationTooltip02" value="Otto" required>
+                        <input type="text" class="form-control" id="validationTooltip02" value="" required>
                         <div class="valid-tooltip">
                             Looks good!
                         </div>

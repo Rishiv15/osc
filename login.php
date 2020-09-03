@@ -3,8 +3,8 @@
 ?>
 
     <main>
-        <div class="container mr-5 ml-5">
-            <form class="bg-dark">
+        <div class="container mt-5">
+            <form>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
