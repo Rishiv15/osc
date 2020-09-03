@@ -2,8 +2,8 @@
     require "header.php";
 ?>
 
-    <main>
-    
+    <main class="text-center">
+        <h1>Home Page</h1>
     </main>
 
 <?php  
