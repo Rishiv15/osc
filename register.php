@@ -4,7 +4,7 @@
 
     <main>
         <div class="container mt-5">
-            <form class="needs-validation" novalidate>
+            <form action="" method="POST">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label for="validationTooltip01">First name</label>

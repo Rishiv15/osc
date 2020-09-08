@@ -1,16 +1,20 @@
 <?php
     include('connection.php');
-    $username = $_POST['user'];  
+    $email = $_POST['email'];  
     $password = $_POST['pass'];  
      
     
-    $sql = "SELECT * FROM users where username='$username' and password='$password'";
+    $sql = "SELECT * FROM users where email='$email'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if (isset($result->num_rows) && $result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            echo "<h1>Welcome " . $row['firstname'] . "</h1>";
+            if(password_verify($password, $row['password'])){
+                echo "<h1>Welcome " . $row['firstname'] . "</h1>";
+            }else{
+                echo "<h1 style='color:red'>Incorrect password</h1>";
+            }
             //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
         }
     } else {
