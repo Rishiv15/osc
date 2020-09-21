@@ -1,5 +1,11 @@
 
 <?php 
+    session_start();
+    // Check if the user is already logged in, if yes then redirect him to welcome page
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+        header("location: dashboard.php");
+        exit;
+    }
     include('connection.php');
     $email = $password = $confirm_password = "";
     $firstname = $middlename = $lastname = "";
@@ -66,14 +72,23 @@
             }
         }
 
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
         // check if no error occured
         if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
-            header("location: dashboard.php");
-            echo "Email " . $email . "<br/>";
-            echo "First name " . $firstname . "<br/>";
-            echo "Middle name " . $middlename . "<br/>";
-            echo "Last name " . $lastname . "<br/>";
-            echo "Password " . password_hash($password, PASSWORD_DEFAULT) . "<br/>";
+            
+            $sql = "INSERT INTO users (firstname, middlename, lastname, email, password, roleid)
+            VALUES ('$firstname', '$middlename', '$lastname', '$email', '$hashed_password', 1)";
+
+            if ($conn->query($sql) === TRUE) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['firstname'] = $firstname;
+                $_SESSION['email'] = $email;
+                $_SESSION['roleid'] = $roleid;
+                header("location: dashboard.php");
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
         }
 
         $conn->close();

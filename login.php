@@ -22,9 +22,11 @@
             if (isset($result->num_rows) && $result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    if(password_verify($password, $row['password'])){
+                    if(password_verify($password, $row['password'])){ 
                         $_SESSION['loggedin'] = true;
                         $_SESSION['firstname'] = $row['firstname'];
+                        $_SESSION['email'] = $row['email'];
+                        $_SESSION['roleid'] = $row['roleid'];
                         header("location: dashboard.php");
                         $conn->close();
                         exit;
