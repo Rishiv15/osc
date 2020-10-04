@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="register.php">Sign Up</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="showtables.php">Show table</a>
+                </li>
             </ul>
             <!--
             <form class="form-inline my-2 my-lg-0">

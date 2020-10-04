@@ -78,7 +78,7 @@
         if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
             
             $sql = "INSERT INTO users (firstname, middlename, lastname, email, password, roleid)
-            VALUES ('$firstname', '$middlename', '$lastname', '$email', '$hashed_password', 1)";
+            VALUES ('$firstname', '$middlename', '$lastname', '$email', '$hashed_password', 3)";
 
             if ($conn->query($sql) === TRUE) {
                 $_SESSION['loggedin'] = true;
