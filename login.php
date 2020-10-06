@@ -15,6 +15,13 @@
         } else {
             $email = $_POST['email'];  
             $password = $_POST['pass'];
+            $remember = $_POST['remember'];
+
+
+            
+
+
+
 
             $sql = "SELECT * FROM users where email='$email'";
             $result = $conn->query($sql);
@@ -27,8 +34,18 @@
                         $_SESSION['firstname'] = $row['firstname'];
                         $_SESSION['email'] = $row['email'];
                         $_SESSION['roleid'] = $row['roleid'];
+
+                        //SET COOKIES
+                        if(isset($_POST['remember'])){
+                            setcookie('email',$email,time()+300);
+                            setcookie('password',$password,time()+300);
+                        }
+
                         header("location: dashboard.php");
                         $conn->close();
+
+
+
                         exit;
                     }else{
                         $err = "Incorrect password";
@@ -52,12 +69,22 @@
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $email?>">
+                    <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo $email?>">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" name="pass" class="form-control" id="exampleInputPassword1" value="<?php echo $password?>">
+                    <input type="password" name="pass" class="form-control" id="pass" value="<?php echo $password?>">
                 </div>
+                <br/>
+                <div class="input-group mb-3">
+                    
+                        
+                            <input type="checkbox" aria-label="Checkbox for following text input" name="remember" value="1"><span>Remember Me</span>
+                            
+                    
+                    
+                </div>
+
                 <span style="color: red;"><?php echo $err; ?></span>
                 <br/><br/>
                 <button type="submit" class="btn btn-primary" name="login-submit">Submit</button>
@@ -68,4 +95,18 @@
 
 <?php  
     require "footer.php";
+    if(isset($_COOKIE['email']) and isset($_COOKIE['password'])){
+
+        $email    = $_COOKIE['email'];
+        $password = $_COOKIE['password'];
+        
+        echo "<script>
+        console.log('hi');
+        document.getElementById('email').value = '$email';
+        document.getElementById('pass').value = '$password';
+        
+        </script>";
+
+    }
+
 ?>
