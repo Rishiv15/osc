@@ -12,7 +12,11 @@
 
         if(empty(trim($_POST['email'])) || empty(trim($_POST['pass']))){
             $err = "Please fill all the fields.";
-        } else {
+        } 
+        else if(!(filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL))){
+            $err = "Please enter a valid email";
+        } 
+        else {
             $email = $_POST['email'];  
             $password = $_POST['pass'];
 
@@ -52,7 +56,7 @@
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $email?>">
+                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $email?>">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>

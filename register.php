@@ -17,7 +17,11 @@
         // validate email
         if(empty(trim($_POST['email']))){
             $email_err = "Please enter your email.";
-        } else {
+        }
+        else if(!filter_var(trim($_POST['email']))){
+            $email_err = "Please enter a valid email.";
+        } 
+        else {
             try{
                 $sql = "SELECT * FROM users WHERE email = " . trim($_POST['email']);
                 $result = $conn->query($sql);
@@ -126,7 +130,7 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label for="validationTooltip01">Email</label>
-                        <input type="email" name="email" class="form-control" id="validationTooltip01" value="<?php echo $email; ?>">
+                        <input type="text" name="email" class="form-control" id="validationTooltip01" value="<?php echo $email; ?>">
                         <span style="color: red;" class="help-block"><?php echo $email_err; ?></span>
                     </div>
                     <div class="col-md-6 mb-3">
