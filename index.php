@@ -5,6 +5,12 @@
         header("location: dashboard.php");
         exit;
     }
+
+    if(isset($_COOKIE["loggedin"]) && $_COOKIE["loggedin"] == true){
+        header("location: dashboard.php");
+        exit;
+    }
+    
     require "header.php";
 ?>
 

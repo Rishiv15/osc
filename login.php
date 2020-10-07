@@ -1,7 +1,14 @@
 <?php
     session_start();
     // Check if the user is already logged in, if yes then redirect him to welcome page
-    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    
+
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true){
+        header("location: dashboard.php");
+        exit;
+    }
+
+    if(isset($_COOKIE["loggedin"]) && $_COOKIE["loggedin"] == true){
         header("location: dashboard.php");
         exit;
     }
@@ -27,12 +34,27 @@
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
                     if(password_verify($password, $row['password'])){ 
-                        $_SESSION['loggedin'] = true;
-                        $_SESSION['firstname'] = $row['firstname'];
-                        $_SESSION['email'] = $row['email'];
-                        $_SESSION['roleid'] = $row['roleid'];
+
+                        // Set cookies if remember me is ticked
+                        // otherwise set session variable so that user can still login
+                        // one time
+                        if(!empty($_POST["remember"])){
+                            setcookie('loggedin', true, time()+86400);
+                            setcookie('email', $email, time()+86400);
+                            setcookie('firstname', $row['firstname'], time()+86400);
+                            setcookie('password', $password, time()+86400);
+                        }else{
+                            $_SESSION['loggedin'] = true;
+                            $_SESSION['firstname'] = $row['firstname'];
+                            $_SESSION['email'] = $row['email'];
+                            $_SESSION['roleid'] = $row['roleid'];
+                        }
+                        
                         header("location: dashboard.php");
                         $conn->close();
+
+
+
                         exit;
                     }else{
                         $err = "Incorrect password";
@@ -56,15 +78,22 @@
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
-                    <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $email?>">
+                    <input type="text" name="email" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo $email?>">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" name="pass" class="form-control" id="exampleInputPassword1" value="<?php echo $password?>">
+                    <input type="password" name="pass" class="form-control" id="pass" value="<?php echo $password?>">
                 </div>
+                <br/>
+                <div class="input-group mb-3">
+                    <input type="checkbox" id="remember" name="remember">Remember Me
+                </div>
+
                 <span style="color: red;"><?php echo $err; ?></span>
                 <br/><br/>
-                <button type="submit" class="btn btn-primary" name="login-submit">Submit</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-secondary" name="login-submit">Log In</button>
+                </div>
             </form>
         </div>
         
@@ -72,4 +101,18 @@
 
 <?php  
     require "footer.php";
+    if(isset($_COOKIE['email']) and isset($_COOKIE['password'])){
+
+        $email    = $_COOKIE['email'];
+        $password = $_COOKIE['password'];
+        
+        echo "<script>
+        console.log('hi');
+        document.getElementById('email').value = '$email';
+        document.getElementById('pass').value = '$password';
+        
+        </script>";
+
+    }
+
 ?>
