@@ -1,8 +1,7 @@
 <?php
     session_start();
-    // Check if the user is already logged in, if yes then redirect him to welcome page
-    
 
+    // Check if the user is already logged in, if yes then redirect him to welcome page
     if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true){
         header("location: dashboard.php");
         exit;
@@ -17,9 +16,12 @@
     $email = $password = $err = "";
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
+        // Check if email field is  empty
         if(empty(trim($_POST['email'])) || empty(trim($_POST['pass']))){
             $err = "Please fill all the fields.";
         } 
+
+        // Check if entered email is valid
         else if(!(filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL))){
             $err = "Please enter a valid email";
         } 
@@ -30,6 +32,7 @@
             $sql = "SELECT * FROM users where email='$email'";
             $result = $conn->query($sql);
 
+            // Check if a user exists with the given mail
             if (isset($result->num_rows) && $result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
@@ -50,18 +53,17 @@
                             $_SESSION['roleid'] = $row['roleid'];
                         }
                         
+                        // after setting cookie/session variable, redirect user to dashboard
                         header("location: dashboard.php");
                         $conn->close();
-
-
-
                         exit;
                     }else{
+                        // If password is incorrect
                         $err = "Incorrect password";
                     }
-                    //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
                 }
             } else {
+                // If no account exists with the given email
                 $err = "No account exists with the entered email.";
             }
         }
