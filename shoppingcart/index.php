@@ -20,7 +20,7 @@
          $productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
 
          // create an array containing the product
-         $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>(int)$productByCode[0]["code"]+1, 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
+         $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'id'=>$productByCode[0]["id"], 'quantity'=>1, 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
          
          // if cart is not empty
          if(!empty($_SESSION["cart_item"])) {
@@ -90,6 +90,10 @@
    <HEAD>
       <TITLE>Simple PHP Shopping Cart</TITLE>
       <link href="style.css" type="text/css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+      <!-- jQuery and JS bundle w/ Popper.js -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
    </HEAD>
    <BODY>
       <div id="shopping-cart">
@@ -158,6 +162,46 @@
          <?php 
             }
             ?>
+      </div>
+      <div style="text-align: center">
+         <!-- Button trigger modal -->
+         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">
+         Pay
+         </button>
+
+         <!-- Modal -->
+         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+            <form action="payment.php" method="GET">
+               <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Please fill the order details</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               </div>
+               <div class="modal-body">
+                  <div class="form-group">
+                     <label for="name">Name</label>
+                     <input type="text" class="form-control" name="name" aria-describedby="name">
+                  </div>
+                  <div class="form-group">
+                     <label for="address">Address</label>
+                     <input type="text" class="form-control" name="address">
+                  </div>
+                  <div class="form-group">
+                     <label for="card_number">Card Number</label>
+                     <input type="text" class="form-control" name="card_number">
+                  </div>
+               </div>
+               <div class="modal-footer">
+               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+               <input type="submit" class="btn btn-outline-success" value="Pay">
+               </div>
+            </form>   
+            </div>
+         </div>
+         </div>
       </div>
       <div id="product-grid">
          <div class="txt-heading">Products</div>
